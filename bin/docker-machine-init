@@ -144,7 +144,7 @@ echo ""
 echo "===> Configuring port forwarding for alrady running containers..."
 while read -r subjectid
 do
-    ports="$(${DOCKER_CLI_BIN_PATH} inspect -f '{{range $p, $conf := .NetworkSettings.Ports }} {{ if $conf}} {{$conf}} {{end}} {{end}}' "${subjectid}" | sed -nE 's:\[\{[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}[^0-9]*([0-9]{1,})\}\]:\1:pg' | xargs echo -n)"
+    ports="$(${DOCKER_CLI_BIN_PATH} inspect -f '{{range $p, $conf := .NetworkSettings.Ports }} {{ if $conf}} {{ index ($conf) 0}} {{end}} {{end}}' "${subjectid}" | sed -nE 's:\{[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}[^0-9]*([0-9]{1,})\}:\1:pg' | xargs echo -n)"
     [[ -z ${ports} ]] || {
         for port in $ports;  do
           echo ""
@@ -182,7 +182,7 @@ do
     if [[ "container" == ${subject} ]]; then
         case $action in
           "start")
-            ports="$(${DOCKER_CLI_BIN_PATH} inspect -f '{{range $p, $conf := .NetworkSettings.Ports }} {{ if $conf}} {{$conf}} {{end}} {{end}}' "${subjectid}" | sed -nE 's:\[\{[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}[^0-9]*([0-9]{1,})\}\]:\1:pg' | xargs echo -n)"
+            ports="$(${DOCKER_CLI_BIN_PATH} inspect -f '{{range $p, $conf := .NetworkSettings.Ports }} {{ if $conf}} {{ index ($conf) 0}} {{end}} {{end}}' "${subjectid}" | sed -nE 's:\{[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}[^0-9]*([0-9]{1,})\}:\1:pg' | xargs echo -n)"
             [[ -z ${ports} ]] || {
                 for port in $ports;  do
                     echo ""
