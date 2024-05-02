@@ -40,10 +40,6 @@ class DockerVirtualbox < Formula
     prefix.install "assets/djocker.png"
   end
 
-  service do
-    name macos: "#{plist_name}"
-  end
-
   def caveats
       s = <<~EOS
         Docker Virtualbox was installed
